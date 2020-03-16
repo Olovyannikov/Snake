@@ -1,0 +1,94 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: monospace;
+}
+
+.flex {
+    display: flex;
+    list-style: none;
+}
+
+.header {
+    width: 100%;
+    background-color: #e6e6e6;
+}
+
+.header .header__heading {
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    font-size: 3em;
+    font-weight: bold;
+}
+
+.main {
+
+}
+
+.main__sidebar,
+.main__content {
+    min-height: 200px;
+}
+
+.main__content {
+    flex: 2;
+    background-color: #444444;
+    padding: 20px;
+}
+
+.main__sidebar {
+    flex: 1;
+    background-color: #DDDDDD;
+}
+
+.main__info {
+    background-color: #cf0408;
+    width: 200px;
+    height: 20px;
+    margin: 0 auto 20px;
+    justify-content: space-between;
+}
+
+.main__info .score,
+.main__info .speed {
+
+}
+
+.main__game {
+    background-color: #006400;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+}
+
+.main__sidebar {
+    padding: 20px;
+}
+
+.main__sidebar button {
+    font-family: inherit;
+    border-radius: 2px;
+    border: 0;
+    padding: 5px 10px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.footer {
+    background-color: #888888;
+    padding: 20px;
+    justify-content: space-between;
+}
+
+.navigation__footer {
+    margin: 0;
+    padding: 0;
+}
+
+.navigation__footer li {
+    padding-right: 10px;
+}
