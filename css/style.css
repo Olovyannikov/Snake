@@ -1,5 +1,10 @@
 html {
     scroll-behavior: smooth;
+    --blue: #084056;
+    --green: #188367;
+    --grass: #9EA66D;
+    --orange: #FF914D;
+    --red: #F53005;
 }
 
 body {
@@ -26,7 +31,7 @@ body {
 }
 
 .main {
-
+    min-height: 500px;
 }
 
 .main__sidebar,
@@ -47,22 +52,27 @@ body {
 
 .main__info {
     background-color: #cf0408;
-    width: 200px;
-    height: 20px;
+    width: 65%;
+    padding: 0 20px ;
+    min-height: 20px;
     margin: 0 auto 20px;
     justify-content: space-between;
+    line-height: 30px;
+    display: flex;
+    font-weight: bold;
+    font-size: 120%;
 }
 
 .main__info .score,
 .main__info .speed {
-
+    padding: 20px;
 }
 
 .main__game {
     background-color: #006400;
-    width: 200px;
-    height: 200px;
+    width: 65%;
     margin: 0 auto;
+    padding: 20px ;
 }
 
 .main__sidebar {
@@ -84,6 +94,32 @@ body {
     justify-content: space-between;
 }
 
+.footer .social {
+    font-size: 0;
+}
+
+.footer .social::before {
+    content: '';
+    display: inline-block;
+    background: url("https://icon-icons.com/icons2/1121/PNG/32/1486147202-social-media-circled-network10_79475.png");
+    width: 32px;
+    height: 32px;
+    margin-right: 30px;
+}
+
+.footer .social--in::before {
+    background: url('https://icon-icons.com/icons2/836/PNG/32/Instagram_icon-icons.com_66804.png')
+}
+
+.footer .social--git::before {
+    background: url('https://icon-icons.com/icons2/512/PNG/32/vc-git_icon-icons.com_50729.png');
+}
+
+.footer .social:hover::before {
+    background-color: white;
+    border-radius: 5px;
+}
+
 .navigation__footer {
     margin: 0;
     padding: 0;
@@ -92,3 +128,31 @@ body {
 .navigation__footer li {
     padding-right: 10px;
 }
+
+/* Game field elements*/
+
+   .field {
+       display: flex;
+       flex-wrap: wrap;
+       margin: 0 auto;
+       background: #1d807a;
+   }
+
+.cell {
+    position: relative;
+    display: block;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-style: inset;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.snake {
+    background: var(--blue);
+}
+
+.food {
+     background: var(--red);
+ }
