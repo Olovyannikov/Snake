@@ -73,6 +73,7 @@ body {
     width: 65%;
     margin: 0 auto;
     padding: 20px ;
+    min-height: 400px;
 }
 
 .main__sidebar {
