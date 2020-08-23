@@ -1,18 +1,48 @@
 /**
- * Snake v0.0.1
+ * Snake v0.1.0
  */
 
+/**
+ * кнопки поделиться
+ */
+const shareBtns = function() {
+    const currentPageLink = location.href;
+    const vkEl = document.getElementById("vk");
+    vkEl.setAttribute("href", `https://vk.com/share.php?url=${currentPageLink}`);
+
+    const fbEl = document.getElementById("fb");
+    fbEl.setAttribute(
+        "href",
+        `https://www.facebook.com/sharer/sharer.php?u=${currentPageLink}`
+    );
+
+    const twEl = document.getElementById("tw");
+    twEl.setAttribute(
+        "href",
+        `http://twitter.com/share?text=WebSnake!&url=${currentPageLink}`
+    );
+};
+
 const config = {
-    initialLength: 10,
+    /** Длина змеи */
+    initialLength: 5,
+    /** скорость змеи */
     stepDuration: 300,
+    /** ускорение */
     speedMult: 0.8,
+    /** вес еды */
     foodScore: 25,
-    speedUpScoreN: 100,
+    /** увеличение веса еды в зависимости от скорости? */
+    speedUpScoreN: 50,
+    /** ширина поля */
     fieldWidth: 20,
+    /** высота поля */
     fieldHeight: 20,
+    /** размер клетки в пикселях */
     cellSize: 15
 };
 
+let gameStatus = "new"; // "new" | "play" | "stopped"
 let score = 0;
 let speed = 1;
 let currentSpeedDuration = config.stepDuration;
@@ -29,8 +59,12 @@ const scoreEl = document.getElementById("score");
 const speedEl = document.getElementById("speed");
 
 const newGameEl = document.getElementById("new");
+const playGameEl = document.getElementById("play");
 
-// создание поля игры
+
+/**
+ *  создание поля игры
+ */
 function initField() {
     const fieldEl = document.createElement("div");
     fieldEl.classList.add("field");
@@ -57,7 +91,9 @@ function initField() {
     gameEl.append(fieldEl);
 }
 
-// инициализация змейки
+/**
+ *  инициализация змейки
+ */
 function initSnake() {
     const newSnake = snake.slice();
     const newSnakeChunksDirections = snakeChunksDirections.slice();
@@ -74,24 +110,28 @@ function initSnake() {
     snakeChunksDirections = newSnakeChunksDirections.slice().reverse();
 }
 
-// проверка координат на совпадение со змейкой
-const checkIfOnSnake = (coords) => {
-    for (i=0; i < snake.length; i++) {
+/**
+ *  проверка координат на совпадение со змейкой
+ */
+const checkIfOnSnake = coords => {
+    for (i = 0; i < snake.length; i++) {
         const chunk = snake[i];
-        if (coords[0] === chunk[0] && coords[1] === chunk[1] ) {
+        if (coords[0] === chunk[0] && coords[1] === chunk[1]) {
             return true;
         }
     }
-}
+};
 
-// создаем еду
+/**
+ *  создаем еду
+ */
 function createFood() {
     let x;
     let y;
     let notOnSnake = true;
-    while(notOnSnake) {
-        x = Math.ceil(Math.random()*config.fieldWidth);
-        y = Math.ceil(Math.random()*config.fieldHeight);
+    while (notOnSnake) {
+        x = Math.floor(Math.random() * config.fieldWidth);
+        y = Math.floor(Math.random() * config.fieldHeight);
         notOnSnake = checkIfOnSnake([x, y]);
     }
     if (food[0]) {
@@ -101,46 +141,55 @@ function createFood() {
     drawFood();
 }
 
-// удаление еды
+/**
+ * удаление еды
+ */
 function clearFood() {
     const foodCellEls = document.querySelectorAll(".food");
-    console.log(foodCellEls);
-    for (chunk of foodCellEls) {
-        console.log(chunk);
-        if (chunk)  {
-            chunk.classList.remove("food");
+    for (element of foodCellEls) {
+        if (element) {
+            element.classList.remove("food");
         }
     }
 }
 
-// рисование еды
+/**
+ *  рисование еды
+ */
 function drawFood() {
     clearFood();
     const cellFoodEl = document.getElementById(`${food[1]}.${food[0]}`);
-    if (cellFoodEl){
-        cellFoodEl.classList.add('food');
+    if (cellFoodEl) {
+        cellFoodEl.classList.add("food");
     }
 }
 
-// стирание змейки
+/**
+ * стирание змейки
+ */
 function clearSnake() {
     const snakeCellEls = document.querySelectorAll(".snake");
     for (chunk of snakeCellEls) {
-        if (chunk)  {
+        if (chunk) {
             chunk.classList.remove("snake");
+            chunk.classList.remove("head");
+
         }
     }
 }
 
-// рендеринг змейки
+/**
+ * рендеринг змейки
+ */
 function drawSnake() {
     const drawingSnake = snake.slice();
-    if (drawingSnake[0][0] > config.fieldWidth ||
-        drawingSnake[0][1] > config.fieldHeight) {
+    if (
+        drawingSnake[0][0] > config.fieldWidth ||
+        drawingSnake[0][1] > config.fieldHeight
+    ) {
         return false;
     }
     clearSnake();
-
     for (i = 0; i < drawingSnake.length; i++) {
         const x = drawingSnake[i][0];
         const y = drawingSnake[i][1];
@@ -149,23 +198,30 @@ function drawSnake() {
             snakeCellEl.classList.add("snake");
         }
     }
+    document.getElementById(`${drawingSnake[0][1]}.${drawingSnake[0][0]}`).classList.add("head");
+
+
 }
 
-// смена направлений кусков змеи
+/**
+ * смена направлений кусков змеи
+ */
 function snakeChangeChunksDirections() {
     let movedSnakeChunksDirections = snakeChunksDirections.slice();
     for (i = 0; i < movedSnakeChunksDirections.length - 1; i++) {
         const index = movedSnakeChunksDirections.length - 1 - i;
         movedSnakeChunksDirections[index] = movedSnakeChunksDirections[index - 1];
     }
-
     snakeChunksDirections = movedSnakeChunksDirections.slice();
 }
 
-// сдвиг змейки
+/**
+ * сдвиг змейки
+ */
 function moveSnake() {
     let movedSnake = snake.slice();
     const currentSnakeChunksDirections = snakeChunksDirections.slice();
+    const currentFood = food;
     for (i = 0; i < movedSnake.length; i++) {
         const direction = currentSnakeChunksDirections[i];
         let chunk = movedSnake[i];
@@ -186,37 +242,43 @@ function moveSnake() {
     snake = movedSnake.slice();
 }
 
-// поедание еды
+/**
+ * поедание еды
+ */
 function eatFood() {
     score = score + config.foodScore;
     food = [];
     createFood();
     scoreEl.innerHTML = score;
-
-    if (score > 0 && score % config.speedUpScoreN === 0 ) {
+    if (score > 0 && score % config.speedUpScoreN === 0) {
         speed++;
         speedEl.innerHTML = speed;
         clearInterval(tickId);
-        currentStepDuration = currentStepDuration*config.speedMult;
+        tickId = null;
+        currentStepDuration = currentStepDuration * config.speedMult;
         tick();
     }
 
 }
 
-// проверка на коллизию
+/**
+ * проверка на коллизию
+ */
 function ifCollision() {
     const snakeHead = snake.slice(0, 1)[0];
+    const snakeAss = snake.slice(-1)[0];
     let nextStepSnakeHead = [];
     const direction = snakeChunksDirections.slice(0, 1);
-
-    const checkIfFood = (coords) => {
-        if (coords[0]===food[0] && coords[1]===food[1]) {
+    const checkIfFood = coords => {
+        if (coords[0] === food[0] && coords[1] === food[1]) {
+            snakeChunksDirections.push(snakeChunksDirections.slice(0))
+            snake.push(snakeAss)
             eatFood();
         }
-    }
+    };
 
     if (direction == "up") {
-        nextStepSnakeHead = [ snakeHead[0], snakeHead[1] - 1];
+        nextStepSnakeHead = [snakeHead[0], snakeHead[1] - 1];
         if (nextStepSnakeHead[1] < 0) {
             return true;
         }
@@ -227,8 +289,8 @@ function ifCollision() {
     }
 
     if (direction == "down") {
-        nextStepSnakeHead = [ snakeHead[0], snakeHead[1] + 1];
-        if (nextStepSnakeHead[1] > config.fieldHeight) {
+        nextStepSnakeHead = [snakeHead[0], snakeHead[1] + 1];
+        if (nextStepSnakeHead[1] >= config.fieldHeight) {
             return true;
         }
         if (checkIfOnSnake(nextStepSnakeHead)) {
@@ -238,7 +300,7 @@ function ifCollision() {
     }
 
     if (direction == "left") {
-        nextStepSnakeHead = [ snakeHead[0] - 1, snakeHead[1]];
+        nextStepSnakeHead = [snakeHead[0] - 1, snakeHead[1]];
         if (nextStepSnakeHead[0] < 0) {
             return true;
         }
@@ -250,7 +312,7 @@ function ifCollision() {
 
     if (direction == "right") {
         nextStepSnakeHead = [snakeHead[0] + 1, snakeHead[1]];
-        if (nextStepSnakeHead[0] > config.fieldWidth) {
+        if (nextStepSnakeHead[0] >= config.fieldWidth) {
             return true;
         }
         if (checkIfOnSnake(nextStepSnakeHead)) {
@@ -259,11 +321,12 @@ function ifCollision() {
         checkIfFood(nextStepSnakeHead);
     }
 
-
     return false;
 }
 
-// очистка tick
+/**
+ *  очистка tick
+ */
 function stopTick() {
     if (tickId) {
         clearInterval(tickId);
@@ -271,13 +334,16 @@ function stopTick() {
     }
 }
 
-// tick
+/**
+ *  tick
+ */
 function tick() {
     if (!tickId) {
         tickId = setInterval(() => {
             if (ifCollision()) {
                 stopTick();
                 alert("Collision");
+                newGameEl.setAttribute("style", "display: block");
             } else {
                 moveSnake();
                 snakeChangeChunksDirections();
@@ -287,14 +353,27 @@ function tick() {
     }
 }
 
-// события клавиатуры
+/**
+ *  события клавиатуры
+ */
 function setListeners() {
-    newGameEl.addEventListener('click', (event)=>{
+    newGameEl.addEventListener("click", event => {
         setDefaults();
-        startGame();
-    })
+        initField();
+        initSnake();
+        drawSnake();
 
-    document.addEventListener('keydown', (event)=> {
+        newGameEl.setAttribute("style", "display: none");
+        playGameEl.setAttribute("style", "display: block");
+    });
+
+    playGameEl.addEventListener("click", event => {
+        startGame();
+        tick();
+        playGameEl.setAttribute("style", "display: none");
+    });
+
+    document.addEventListener("keydown", event => {
         const keyCode = event.keyCode;
         const directions = {
             38: "up",
@@ -314,12 +393,13 @@ function setListeners() {
                 snakeChunksDirections[0] = snakeDirection;
             }
         }
-    })
+    });
 }
 
-// можно ли повернуть
+/**
+ *  можно ли повернуть
+ */
 function canTurn(direction) {
-
     if (snakeDirection === direction) {
         return false;
     }
@@ -351,15 +431,25 @@ function canTurn(direction) {
     return true;
 }
 
+/**
+ * стартовые значения
+ */
 function setDefaults() {
+    score = 0;
+    speed = 1;
+    currentSpeedDuration = config.stepDuration;
+    food = [];
     snake = [];
     snakeDirection = "right";
     snakeChunksDirections = [];
     tickId = null;
     currentStepDuration = config.stepDuration;
+    scoreEl.innerHTML = score;
+    speedEl.innerHTML = speed;
 }
 
 function startGame() {
+    setDefaults();
     initField();
     initSnake();
     drawSnake();
@@ -368,7 +458,9 @@ function startGame() {
 
 // Main function
 const main = function() {
-    startGame();
+    shareBtns();
+
+    initField();
     setListeners();
 };
 

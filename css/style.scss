@@ -1,13 +1,13 @@
-@charset "UTF-8";
 html {
   font-family: Roboto;
   height: 100%;
+
   /* 	colors */
-  --blue: #084056;
-  --green: #188367;
-  --grass: #9EA66D;
-  --orange: #FF914D;
-  --red: #F53005;
+  --blue:  #084056;
+  --green:  #188367;
+  --grass:  #9EA66D;
+  --orange:  #FF914D;
+  --red:  #F53005;
 }
 
 body {
@@ -64,12 +64,12 @@ aside button {
   border: 0;
   padding: 0 15px;
   display: inline-block;
-  margin: 0 20px 20px 0;
+  margin: 0 20px 20px 0 ;
   background: var(--blue);
   font-size: 100%;
   color: #fff;
   cursor: pointer;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
   transition: all 0.2s ease-in-out;
   height: 40px;
   line-height: 40px;
@@ -77,7 +77,8 @@ aside button {
 }
 
 aside button.pause,
-aside button.play {
+aside button.play,
+{
   background: var(--blue);
 }
 
@@ -91,11 +92,11 @@ aside button.play {
 }
 
 aside button:hover {
-  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 7px rgba(0,0,0,0.2);
 }
 
 aside button:active {
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 5px 2px rgba(0,0,0,0.25);
 }
 
 .info {
@@ -105,35 +106,45 @@ aside button:active {
   justify-content: space-between;
   font-weight: bold;
   font-size: 120%;
-}
-.info .score, .info .speed {
-  display: inline-block;
-  padding: 5px 10px;
-  background: #fff;
-  border-radius: 4px;
-  color: #888;
-}
-.info .score i, .info .speed i {
-  padding: 3px 10px;
-  border-radius: 4px;
-  margin-right: 5px;
-  color: #fff;
-}
-.info .score span, .info .speed span {
-  font-family: monospace;
-  font-size: 150%;
-}
-.info .score i {
-  background: var(--green);
-}
-.info .score span {
-  color: var(--green);
-}
-.info .speed i {
-  background: var(--orange);
-}
-.info .speed span {
-  color: var(--orange);
+
+  & .score,
+  & .speed {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #fff;
+    border-radius: 4px;
+    color: #888;
+
+    i {
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-right: 5px;
+      color: #fff;
+    }
+
+    span {
+      font-family: monospace;
+      font-size: 150%;
+    }
+  }
+
+  & .score {
+    i {
+      background: var(--green);
+    }
+    span {
+      color: var(--green);
+    }
+  }
+
+  & .speed {
+    i {
+      background: var(--orange);
+    }
+    span {
+      color: var(--orange);
+    }
+  }
 }
 
 .game {
@@ -185,6 +196,9 @@ footer {
   opacity: 0.5;
 }
 
+
+// Game field elements
+
 .field {
   display: flex;
   flex-wrap: wrap;
@@ -199,36 +213,38 @@ footer {
   padding: 0;
   box-sizing: border-box;
   border-style: inset;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.1);
-}
-.cell.snake {
-  background: var(--blue);
-}
-.cell.food {
-  background: var(--red);
-}
-.cell.food:before {
-  content: "💨";
-  font-size: 0.6em;
-  z-index: 1;
-  transition: 0.2s;
-}
-.cell.snake.head:before {
-  content: "♿";
-  font-size: 0.6em;
-  z-index: 1;
-  transition: 0.2s;
-}
-.cell.food {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.cell.snake.head {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.1);
 
-/*# sourceMappingURL=style.css.map */
+  &.snake {
+    background: var(--blue);
+  }
+
+  &.food {
+    background: var(--red);
+  }
+  &.food:before {
+
+    content: "💨";
+    font-size: 0.6em;
+    z-index: 1;
+    transition: 0.2s;
+  }
+  &.snake.head:before {
+    content: "♿";
+    font-size: 0.6em;
+    z-index: 1;
+    transition: 0.2s;
+  }
+  &.food{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &.snake.head{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+}
